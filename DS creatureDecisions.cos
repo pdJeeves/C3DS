@@ -1,0 +1,694 @@
+***********************************************************
+*** Creature decisions : 16+
+***********************************************************
+
+
+***************************************
+* Creature scripts:
+*
+* notes by gtb, march 99:
+*  + scripts used to be divided into
+*    extra (16+) and intro (32+), now
+*    there's just one type (16+).
+*
+*  + been done to actions are still marked
+*    from (0+).
+*  + involuntary actions are (64+).
+*
+* (based on the C2 scripts)
+
+
+
+* activate 0 and 1 are defined in Z-activates
+
+***************CREATURE quiescent [0]
+scrp 4 0 0 16
+	setv va00 rand 0 1
+	doif va00 eq 0
+		pose 57
+		setv va00 rand 20 40
+		wait va00
+	else
+		pose 59
+		setv va00 rand 1 10
+		wait va00
+		pose 60
+		setv va00 rand 1 10
+		wait va00
+	endi
+	stim writ targ 12 1
+endm
+
+
+***************CREATURE activate 1 [1]
+scrp 4 0 0 17
+	appr
+
+	inst
+	doif _it_ eq null
+* no stim disappointment cos chemical based learning cant be silenced
+		wait 10
+		stop
+	endi
+
+	touc
+
+	inst
+	doif _it_ eq null
+* no stim disappointment cos chemical based learning cant be silenced
+		wait 10
+		stop
+	endi
+
+	targ _it_
+	setv va00 bhvr
+	targ ownr
+	andv va00 1
+	doif va00 eq 1 and byit ne 0
+*stim yourself with ACTIVATE 1:
+		targ _it_
+		doif sorq fmly gnus spcs 1 eq 0
+* learn from stim if no script is being called
+			setv va99 1
+		else
+* dont learn fronm stim script will provide learning
+			setv va99 0
+		endi
+		targ ownr
+		stim writ targ 13 va99
+
+
+*tell _IT_ to activate 1:
+		mesg writ _it_ 0
+		pose 12
+		wait 20
+	else
+* disappointment:
+		stim writ targ 0 1
+		doif rand 0 4 eq 1
+			pose 39
+		else
+			pose 45
+		endi
+		wait 20
+	endi
+endm
+
+
+***************CREATURE activate 2 [2]
+scrp 4 0 0 18
+	appr
+
+	inst
+	doif _it_ eq null
+* no stim disappointment cos chemical based learning cant be silenced
+		wait 10
+		stop
+	endi
+
+	touc
+
+	inst
+	doif _it_ eq null
+* no stim disappointment cos chemical based learning cant be silenced
+		wait 10
+		stop
+	endi
+
+	targ _it_
+	setv va00 bhvr
+	targ ownr
+	andv va00 2
+	doif va00 eq 2 and byit ne 0
+*stim yourself with ACTIVATE 2:
+		targ _it_
+		doif sorq fmly gnus spcs 2 eq 0
+* learn from stim if no script is being called
+			setv va99 1
+		else
+* dont learn fronm stim script will provide learning
+			setv va99 0
+		endi
+		targ ownr
+		stim writ targ 14 va99
+*tell _IT_ to activate 2:
+		mesg writ _it_ 1
+		pose 12
+		wait 20
+	else
+* disappointment:
+		stim writ targ 0 1
+		doif rand 0 4 eq 1
+			pose 39
+		else
+			pose 45
+		endi
+		wait 20
+	endi
+endm
+
+
+************CREATURE deactivate [3]
+scrp 4 0 0 19
+	appr
+
+	inst
+	doif _it_ eq null
+* no stim disappointment cos chemical based learning cant be silenced
+		wait 10
+		stop
+	endi
+
+	touc
+
+	inst
+	doif _it_ eq null
+* no stim disappointment cos chemical based learning cant be silenced
+		wait 10
+		stop
+	endi
+
+	targ _it_
+	setv va00 bhvr
+	targ ownr
+	andv va00 4
+	doif va00 eq 4 and byit ne 0
+*stim yourself with DEACTIVATE:
+		targ _it_
+		doif sorq fmly gnus spcs 0 eq 0
+* learn from stim if no script is being called
+			setv va99 1
+		else
+* dont learn fronm stim script will provide learning
+			setv va99 0
+		endi
+		targ ownr
+
+		stim writ targ 15 va99
+*tell it to deactivate
+		mesg writ _it_ 2
+		pose 12
+		wait 20
+	else
+* disappointment:
+		stim writ targ 0 1
+		doif rand 0 4 eq 1
+			pose 39
+		else
+			pose 45
+		endi
+		wait 20
+	endi
+endm
+
+
+*************CREATURE approach [4]
+scrp 4 0 0 20
+	appr
+* disappointment:
+	doif byit eq 0
+		stim writ targ 0 1
+	endi
+	wait 10
+endm
+
+*************CREATURE retreat [5]
+scrp 4 0 0 21
+	doif driv 10 gt 0.25
+		setv va00 1
+	elif driv 0 gt 0.5
+		setv va00 2
+	elif driv 9 gt 0.25
+		setv va00 3
+	else
+* if no suitable retreat possible
+* pick random one:
+		setv va00 rand 1 3
+	endi
+
+	doif va00 eq 1
+**if scared flee
+		pose 39
+		wait 7
+		anim [053 054 055 056 255]
+		wait 80
+		pose 12
+**stim yourself with RETREAT
+		stim writ targ 17 1
+		wait 20
+		done
+		stop
+	elif va00 eq 2
+** pain run away crying
+		pose 39
+		wait 7
+		anim [052 051 050 049 255]
+		wait 40
+		pose 12
+**stim yourself with RETREAT
+		stim writ targ 17 1
+		wait 20
+		done
+		stop
+** crowded back off
+	elif va00 eq 3
+		pose 39
+		wait 7
+		anim [049 050 051 052 255]
+		wait 40
+		pose 12
+**stim yourself with RETREAT
+		stim writ targ 17 1
+		wait 20
+		done
+		stop
+	endi
+
+endm
+
+*************CREATURE pickup [6]
+scrp 4 0 0 22
+	appr
+	inst
+	doif _it_ eq null
+* no stim disappointment cos chemical based learning cant be silenced
+		wait 10
+		stop
+	endi
+
+	doif held ne null
+* holding what we have already?
+		doif held eq _it_
+* disappointment:
+			stim writ targ 0 1
+			wait 10
+			stop
+		endi
+* maybe not this:
+		mesg writ held 5
+	endi
+
+	targ _it_
+	setv va00 bhvr
+	targ ownr
+	andv va00 32
+	doif va00 ne 32
+* disappointment:
+		stim writ targ 0 1
+		doif rand 0 2 eq 1
+			pose 39
+		else
+			pose 45
+		endi
+		wait 12
+		stop
+	else
+		touc
+	endi
+
+	inst
+	doif _it_ eq null
+* no stim disappointment cos chemical based learning cant be silenced
+		wait 10
+		stop
+	endi
+
+	doif byit ne 0
+*stim yourself with GET
+		targ _it_
+		doif sorq fmly gnus spcs 4 eq 0
+* learn from stim if no script is being called
+			setv va99 1
+		else
+* dont learn fronm stim script will provide learning
+			setv va99 0
+		endi
+		targ ownr
+
+		stim writ targ 18 va99
+*tell _IT_ pickup
+		mesg writ _it_ 4
+		wait 4
+		pose 12
+		loop
+			wait 20
+		ever
+	else
+* disappointment:
+		stim writ targ 0 1
+		doif rand 0 4 eq 1
+			pose 39
+		else
+			pose 45
+		endi
+		wait 20
+	endi
+endm
+
+
+*************CREATURE drop [7]
+scrp 4 0 0 23
+	pose 0
+	inst
+	doif held eq null
+* disappointment:
+		stim writ targ 0 1
+		wait 10
+		stop
+	endi
+*stim yourself with DROP:
+	targ held
+	doif sorq fmly gnus spcs 5 eq 0
+* learn from stim if no script is being called
+		setv va99 1
+	else
+* dont learn fronm stim script will provide learning
+		setv va99 0
+	endi
+	targ ownr
+	stim writ targ 19 va99
+	mesg writ held 5
+	wait 20
+	pose 12
+	wait 20
+endm
+
+
+*************CREATURE need [8]
+scrp 4 0 0 24
+
+** check antigen levels for illness
+	setv va10 82
+	setv va11 0.2
+	loop
+		doif chem va10 gt va11
+			setv va11 chem va10
+		endi
+		addv va10 1
+	untl va10 gt 89
+
+	doif va11 gt 0.2
+** ill
+** no pose	anim [143 144 145 146]
+	else
+		setv va01 0
+		setv va02 -100
+		loop
+			doif driv va01 gt va02
+				setv va00 va01
+				setv va02 driv va00
+			endi
+			addv va01 1
+		untl va01 gt 12
+
+**IF your most pressing drive is less than 64 then
+		doif driv va00 lt 0.25
+*do a pose
+			pose 33
+		else
+**ELSE you have a need - pose differently
+			pose 34
+			doif va00 eq 0
+				pose 35
+			endi
+			doif va00 eq 1
+				pose 89
+			endi
+			doif va00 eq 2
+				pose 47
+			endi
+			doif va00 eq 3
+				pose 36
+			endi
+			doif va00 eq 4
+				pose 37
+			endi
+			doif va00 eq 5
+				pose 37
+			endi
+			doif va00 eq 6
+				pose 12
+			endi
+			doif va00 eq 7
+				pose 38
+			endi
+			doif va00 eq 8
+				pose 42
+			endi
+			doif va00 eq 9
+				pose 51
+			endi
+			doif va00 eq 10
+				anim [040 040 041 041 255]
+			endi
+			doif va00 eq 11
+				pose 121
+			endi
+			doif va00 eq 12
+				anim [042 043 255]
+			endi
+		endi
+	endi
+
+	sayn
+*stim yourself with EXPRESSNEED
+	stim writ targ 20 1
+	wait 50
+endm
+
+***************CREATURE - rest - Extra[9]
+scrp 4 0 0 25
+
+** increase sleepiness may trigger sleep
+	doif driv 7 gt 0.6
+		lock
+		ltcy 5 90 190
+		pose 57
+		wait 25
+*stim yourself with REST
+		stim writ targ 21 1
+
+*	drop what you are carrying
+		drop
+
+*go to sleep
+		aslp 1
+
+* create zzzz's
+		new: simp 1 2 28 "zzzz" 17 0 6000
+		seta ov00 ownr
+		setv ov01 0
+		tick 5
+
+		targ ownr
+
+*start to dream
+		setv va00 0
+		loop
+			drea 1
+			doif va00 eq 0
+				doif gnus eq 2
+					snde "gsnr"
+				else
+					snde "zzzz"
+				endi
+			endi
+
+			pose 58
+			wait 20
+*stim yourself with SLEEP
+			stim writ targ 22 1
+
+			addv va00 1
+			doif va00 >= 10
+				setv va00 0
+			endi
+		untl driv 7 lt 0.10 and driv 6 lt 0.10
+
+*wake up
+		aslp 0
+		pose 58
+		wait 25
+		unlk
+
+	else
+		loop
+			pose 58
+			wait 20
+			stim writ targ 21 1
+** NOTE: stiming rest should biochemically increase tiredness only
+			wait 20
+		untl driv 6 lt 0.10
+	endi
+
+endm
+
+*************CREATURE west [10]
+scrp 4 0 0 26
+	pose 59
+	dirn 3
+	walk
+	wait 30
+	loop
+		wait 20
+*stim yourself with TRAVELLING
+		stim writ targ 23 1
+	ever
+endm
+
+
+*************CREATURE east [11]
+scrp 4 0 0 27
+	pose 60
+	dirn 2
+	walk
+	wait 30
+	loop
+		wait 20
+*stim yourself with TRAVELLING
+		stim writ targ 23 1
+	ever
+endm
+
+
+***************CREATURE eat [12]
+scrp 4 0 0 28
+	appr
+	inst
+	doif _it_ eq null
+* no stim disappointment cos chemical based learning cant be silenced
+		wait 10
+		stop
+	endi
+
+	targ _it_
+	setv va00 bhvr
+	targ ownr
+	andv va00 16
+	doif va00 ne 16
+* 	if IT can't be eaten or cant reach:
+		doif rand 0 4 eq 1
+			pose 39
+		else
+			pose 45
+		endi
+* disappointment:
+		stim writ targ 0 73
+		wait 20
+		stop
+	endi
+	touc
+
+	inst
+	doif _it_ eq null
+* no stim disappointment cos chemical based learning cant be silenced
+		wait 10
+		stop
+	endi
+
+
+	doif byit ne 0
+* drop whatever you were carrying before:
+		doif held ne null and held ne _it_
+			mesg writ held 5
+		endi
+		wait 1
+* pick up:
+		inst
+		doif _it_ eq null
+* no stim disappointment cos chemical based learning cant be silenced
+			wait 10
+			stop
+		endi
+		mesg writ _it_ 4
+		wait 1
+		pose 73
+* tell _IT_ to eat:
+		inst
+		doif _it_ eq null
+* no stim disappointment cos chemical based learning cant be silenced
+			wait 10
+			stop
+		endi
+		mesg writ _it_ 12
+* stim yourself with EAT
+		targ _it_
+		doif sorq fmly gnus spcs 12 eq 0
+* learn from stim if no script is being called
+			setv va99 1
+		else
+* dont learn fronm stim script will provide learning
+			setv va99 0
+		endi
+		targ ownr
+		stim writ targ 26 va99
+		wait 10
+		pose 74
+		wait 10
+		pose 12
+		wait 20
+	else
+* disappointment:
+		stim writ targ 0 1
+		doif rand 0 4 eq 1
+			pose 39
+		else
+			pose 45
+		endi
+		wait 30
+	endi
+endm
+
+***********creature hit [13]
+scrp 4 0 0 29
+	appr
+
+	doif _it_ eq null
+* no stim disappointment cos chemical based learning cant be silenced
+		wait 10
+		stop
+	endi
+
+	touc
+
+	inst
+	doif _it_ eq null
+* no stim disappointment cos chemical based learning cant be silenced
+		wait 10
+		stop
+	endi
+
+	targ _it_
+	setv va00 bhvr
+	targ ownr
+	andv va00 8
+	doif va00 eq 8 and byit ne 0
+*tell it to hit
+		anim [111 112 113 114 111]
+		mesg writ _it_ 3
+*stim yourself with AGGRESSION
+		targ _it_
+		doif sorq fmly gnus spcs 3 eq 0
+* learn from stim if no script is being called
+			setv va99 1
+		else
+* dont learn fronm stim script will provide learning
+			setv va99 0
+		endi
+		targ ownr
+		stim writ targ 44 va99
+		wait 4
+		pose 12
+		wait 20
+	else
+* disappointment:
+		stim writ targ 0 1
+		doif rand 0 4 eq 1
+			pose 39
+		else
+			pose 45
+		endi
+		wait 20
+	endi
+endm
+***********************************************************
