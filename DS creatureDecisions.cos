@@ -37,6 +37,7 @@ scrp 4 0 0 16
 		wait va00
 	endi
 	stim writ targ 12 1
+	stim writ targ 36 1
 endm
 
 
@@ -47,6 +48,7 @@ scrp 4 0 0 17
 	inst
 	doif _it_ eq null
 * no stim disappointment cos chemical based learning cant be silenced
+		stim writ targ 37 1
 		wait 10
 		stop
 	endi
@@ -56,6 +58,7 @@ scrp 4 0 0 17
 	inst
 	doif _it_ eq null
 * no stim disappointment cos chemical based learning cant be silenced
+		stim writ targ 37 1
 		wait 10
 		stop
 	endi
@@ -76,7 +79,7 @@ scrp 4 0 0 17
 		endi
 		targ ownr
 		stim writ targ 13 va99
-
+		stim writ targ 36 1
 
 *tell _IT_ to activate 1:
 		mesg writ _it_ 0
@@ -85,6 +88,7 @@ scrp 4 0 0 17
 	else
 * disappointment:
 		stim writ targ 0 1
+		stim writ targ 37 1
 		doif rand 0 4 eq 1
 			pose 39
 		else
@@ -102,6 +106,7 @@ scrp 4 0 0 18
 	inst
 	doif _it_ eq null
 * no stim disappointment cos chemical based learning cant be silenced
+		stim writ targ 37 1
 		wait 10
 		stop
 	endi
@@ -111,6 +116,7 @@ scrp 4 0 0 18
 	inst
 	doif _it_ eq null
 * no stim disappointment cos chemical based learning cant be silenced
+		stim writ targ 37 1
 		wait 10
 		stop
 	endi
@@ -131,6 +137,7 @@ scrp 4 0 0 18
 		endi
 		targ ownr
 		stim writ targ 14 va99
+		stim writ targ 36 1
 *tell _IT_ to activate 2:
 		mesg writ _it_ 1
 		pose 12
@@ -138,6 +145,7 @@ scrp 4 0 0 18
 	else
 * disappointment:
 		stim writ targ 0 1
+		stim writ targ 37 1
 		doif rand 0 4 eq 1
 			pose 39
 		else
@@ -155,6 +163,7 @@ scrp 4 0 0 19
 	inst
 	doif _it_ eq null
 * no stim disappointment cos chemical based learning cant be silenced
+		stim writ targ 37 1
 		wait 10
 		stop
 	endi
@@ -164,6 +173,7 @@ scrp 4 0 0 19
 	inst
 	doif _it_ eq null
 * no stim disappointment cos chemical based learning cant be silenced
+		stim writ targ 37 1
 		wait 10
 		stop
 	endi
@@ -185,6 +195,7 @@ scrp 4 0 0 19
 		targ ownr
 
 		stim writ targ 15 va99
+		stim writ targ 36 1
 *tell it to deactivate
 		mesg writ _it_ 2
 		pose 12
@@ -192,6 +203,7 @@ scrp 4 0 0 19
 	else
 * disappointment:
 		stim writ targ 0 1
+		stim writ targ 37 1
 		doif rand 0 4 eq 1
 			pose 39
 		else
@@ -208,6 +220,9 @@ scrp 4 0 0 20
 * disappointment:
 	doif byit eq 0
 		stim writ targ 0 1
+		stim writ targ 37 1
+	else
+		stim writ targ 36 1
 	endi
 	wait 10
 endm
@@ -226,44 +241,37 @@ scrp 4 0 0 21
 		setv va00 rand 1 3
 	endi
 
+	pose 39
+	wait 7
+		
 	doif va00 eq 1
 **if scared flee
-		pose 39
-		wait 7
 		anim [053 054 055 056 255]
 		wait 80
-		pose 12
-**stim yourself with RETREAT
-		stim writ targ 17 1
-		wait 20
-		done
-		stop
 	elif va00 eq 2
 ** pain run away crying
-		pose 39
-		wait 7
 		anim [052 051 050 049 255]
 		wait 40
-		pose 12
-**stim yourself with RETREAT
-		stim writ targ 17 1
-		wait 20
-		done
-		stop
 ** crowded back off
 	elif va00 eq 3
-		pose 39
-		wait 7
 		anim [049 050 051 052 255]
 		wait 40
-		pose 12
-**stim yourself with RETREAT
-		stim writ targ 17 1
-		wait 20
-		done
-		stop
 	endi
-
+	
+	pose 12
+**stim yourself with RETREAT
+	stim writ targ 17 1
+	stim writ targ 36 1
+	
+	doif crea attn
+		targ attn
+		doif attn eq ownr
+			stim writ targ 6 1
+		endi
+		targ ownr
+	endi
+	wait 20
+	done
 endm
 
 *************CREATURE pickup [6]
@@ -272,6 +280,7 @@ scrp 4 0 0 22
 	inst
 	doif _it_ eq null
 * no stim disappointment cos chemical based learning cant be silenced
+		stim writ targ 37 1
 		wait 10
 		stop
 	endi
@@ -281,6 +290,7 @@ scrp 4 0 0 22
 		doif held eq _it_
 * disappointment:
 			stim writ targ 0 1
+			stim writ targ 37 1
 			wait 10
 			stop
 		endi
@@ -295,6 +305,7 @@ scrp 4 0 0 22
 	doif va00 ne 32
 * disappointment:
 		stim writ targ 0 1
+		stim writ targ 37 1
 		doif rand 0 2 eq 1
 			pose 39
 		else
@@ -309,6 +320,7 @@ scrp 4 0 0 22
 	inst
 	doif _it_ eq null
 * no stim disappointment cos chemical based learning cant be silenced
+		stim writ targ 37 1
 		wait 10
 		stop
 	endi
@@ -326,6 +338,7 @@ scrp 4 0 0 22
 		targ ownr
 
 		stim writ targ 18 va99
+		stim writ targ 36 1
 *tell _IT_ pickup
 		mesg writ _it_ 4
 		wait 4
@@ -336,6 +349,7 @@ scrp 4 0 0 22
 	else
 * disappointment:
 		stim writ targ 0 1
+		stim writ targ 37 1
 		doif rand 0 4 eq 1
 			pose 39
 		else
@@ -352,6 +366,7 @@ scrp 4 0 0 23
 	inst
 	doif held eq null
 * disappointment:
+		stim writ targ 37 1
 		stim writ targ 0 1
 		wait 10
 		stop
@@ -367,6 +382,7 @@ scrp 4 0 0 23
 	endi
 	targ ownr
 	stim writ targ 19 va99
+	stim writ targ 36 1
 	mesg writ held 5
 	wait 20
 	pose 12
@@ -453,6 +469,7 @@ scrp 4 0 0 24
 	sayn
 *stim yourself with EXPRESSNEED
 	stim writ targ 20 1
+	stim writ targ 36 1
 	wait 50
 endm
 
@@ -467,6 +484,7 @@ scrp 4 0 0 25
 		wait 25
 *stim yourself with REST
 		stim writ targ 21 1
+		stim writ targ 36 1
 
 *	drop what you are carrying
 		drop
@@ -498,6 +516,7 @@ scrp 4 0 0 25
 			wait 20
 *stim yourself with SLEEP
 			stim writ targ 22 1
+			stim writ targ 36 1
 
 			addv va00 1
 			doif va00 >= 10
@@ -516,6 +535,7 @@ scrp 4 0 0 25
 			pose 58
 			wait 20
 			stim writ targ 21 1
+			stim writ targ 36 1
 ** NOTE: stiming rest should biochemically increase tiredness only
 			wait 20
 		untl driv 6 lt 0.10
@@ -533,6 +553,7 @@ scrp 4 0 0 26
 		wait 20
 *stim yourself with TRAVELLING
 		stim writ targ 23 1
+		stim writ targ 36 1
 	ever
 endm
 
@@ -547,6 +568,7 @@ scrp 4 0 0 27
 		wait 20
 *stim yourself with TRAVELLING
 		stim writ targ 23 1
+		stim writ targ 36 1
 	ever
 endm
 
@@ -556,6 +578,7 @@ scrp 4 0 0 28
 	appr
 	inst
 	doif _it_ eq null
+		stim writ targ 37 1
 * no stim disappointment cos chemical based learning cant be silenced
 		wait 10
 		stop
@@ -574,6 +597,7 @@ scrp 4 0 0 28
 		endi
 * disappointment:
 		stim writ targ 0 73
+		stim writ targ 37 1
 		wait 20
 		stop
 	endi
@@ -582,6 +606,7 @@ scrp 4 0 0 28
 	inst
 	doif _it_ eq null
 * no stim disappointment cos chemical based learning cant be silenced
+		stim writ targ 37 1
 		wait 10
 		stop
 	endi
@@ -597,6 +622,7 @@ scrp 4 0 0 28
 		inst
 		doif _it_ eq null
 * no stim disappointment cos chemical based learning cant be silenced
+			stim writ targ 37 1
 			wait 10
 			stop
 		endi
@@ -607,6 +633,7 @@ scrp 4 0 0 28
 		inst
 		doif _it_ eq null
 * no stim disappointment cos chemical based learning cant be silenced
+			stim writ targ 37 1
 			wait 10
 			stop
 		endi
@@ -622,6 +649,7 @@ scrp 4 0 0 28
 		endi
 		targ ownr
 		stim writ targ 26 va99
+		stim writ targ 36 1
 		wait 10
 		pose 74
 		wait 10
@@ -630,6 +658,7 @@ scrp 4 0 0 28
 	else
 * disappointment:
 		stim writ targ 0 1
+		stim writ targ 37 1
 		doif rand 0 4 eq 1
 			pose 39
 		else
@@ -645,6 +674,7 @@ scrp 4 0 0 29
 
 	doif _it_ eq null
 * no stim disappointment cos chemical based learning cant be silenced
+		stim writ targ 37 1
 		wait 10
 		stop
 	endi
@@ -654,6 +684,7 @@ scrp 4 0 0 29
 	inst
 	doif _it_ eq null
 * no stim disappointment cos chemical based learning cant be silenced
+		stim writ targ 37 1
 		wait 10
 		stop
 	endi
@@ -677,12 +708,14 @@ scrp 4 0 0 29
 		endi
 		targ ownr
 		stim writ targ 44 va99
+		stim writ targ 36 1
 		wait 4
 		pose 12
 		wait 20
 	else
 * disappointment:
 		stim writ targ 0 1
+		stim writ targ 37 1
 		doif rand 0 4 eq 1
 			pose 39
 		else
