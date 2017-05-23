@@ -37,14 +37,8 @@ scrp 10 10 5800 9
 				outs hist name gtos 0
 *output a tab
 				outs "\t"
-* store the current targ
-				setv va02 targ
-*target the attention source
-				targ attn
 *output the catagory name of the targeted agent
-				outs catx cati fmly gnus spcs
-*restore the targeted norn
-				targ va02
+				outs catx attn
 *output a tab
 				outs "\t"
 *output the decision number
