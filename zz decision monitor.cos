@@ -3,7 +3,7 @@
 inst
 *make a new agent with fmly/gnus numbers that no one is using (probably)
 	new: simp 10 10 5800 "blnk" 1 0 0
-* run every tick, (we'll process 1 creature every tick)
+* run every tick, (we'll try to process 1 creature every tick)
 	tick 1
 *move to the norn meso
 	mvto 281 8736
@@ -27,6 +27,10 @@ scrp 10 10 5800 9
 				addv ov92 1
 *output the moniker
 				outs gtos 0
+*output a tab
+				outs "\t"
+*output the time
+				outs rtif rtim "%Y-%m-%d %H-%M-%S"
 *output a tab
 				outs "\t"
 *output the name of the creature
@@ -53,7 +57,7 @@ scrp 10 10 5800 9
 				outs "\n"
 			endi
 *wait for the next tick to avoid lag
-			wait 1
+			slow
 		endi
 	next
 *close the output file, and actually write the changes to disk.
