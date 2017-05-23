@@ -2,11 +2,11 @@
 * ov90/91/92 aren't used for anything in norns
 inst
 *make a new agent with fmly/gnus numbers that no one is using (probably)
-	new: simp 10 10 5800 "blnk" 1 0 0
+new: simp 10 10 5800 "blnk" 1 0 0
 * run every tick, (we'll try to process 1 creature every tick)
-	tick 1
+tick 1
 *move to the norn meso
-	mvto 281 8736
+mvto 281 8736
 endm
 
 scrp 10 10 5800 9
@@ -15,15 +15,15 @@ scrp 10 10 5800 9
 * enumerate over all creatures
 	enum 4 0 0
 * if it has a genome
-		doif crea targ
-*ensure the decision doesn't change while we're running
+		doif crea targ eq 1
+* ensure the decision doesn't change while we're running
 			inst
 			setv va00 decn
 			addv va00 1
- different decision than last time we looped
-			doif va00 ne ov90 OR attn ne ov91
+* different decision than last time we looped
+			doif va00 ne ov90 or attn ne ov91
 				setv ov90 va00
-				seta ov91 attn
+				setv ov91 attn
 				addv ov92 1
 *output the moniker
 				outs gtos 0
@@ -37,14 +37,8 @@ scrp 10 10 5800 9
 				outs hist name gtos 0
 *output a tab
 				outs "\t"
-* store the current targ
-				setv va02 targ
-*target the attention source
-				targ attn
-*output the catagory name of the targeted agent
-				outs catx cati fmly gnus spcs
-*restore the targeted norn
-				targ va02
+*output the attention classifier ID
+				outv attn
 *output a tab
 				outs "\t"
 *output the decision number
@@ -64,3 +58,7 @@ scrp 10 10 5800 9
 	file oclo
 endm
 
+rscr
+enum 10 10 5800
+	kill targ
+next
